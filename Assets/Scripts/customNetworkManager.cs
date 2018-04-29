@@ -6,10 +6,7 @@ using UnityEngine.UI;
 
 public class customNetworkManager : NetworkManager {
 
-	public Text playerCounter;
-
 	GameObject SpawnButtons;
-	public GameObject[] SpawnPlayerPrefabs;
 
 	public GameObject bluePlayerPrefab, redPlayerPrefab, greenPlayerPrefab;
 
@@ -26,10 +23,14 @@ public class customNetworkManager : NetworkManager {
 		NetworkServer.AddPlayerForConnection (conn, playerPrefab, playerControllerId);
 	}
 
-	public override void OnClientConnect (NetworkConnection conn) {
-		base.OnClientConnect (conn);
+	public override void OnStartClient (NetworkClient client) {
+		base.OnStartClient (client);
 		SpawnButtons.SetActive (true);
-		Debug.Log ("player connected");
+	}
+
+		public override void OnStopClient () {
+		base.OnStopClient ();
+		SpawnButtons.SetActive (false);
 	}
 
 	Vector3 getPositionOnPlane () {
